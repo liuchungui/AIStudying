@@ -83,12 +83,21 @@ class Vector():
         if self.len() == 0 or other.len() == 0:
             return True
 
+        if self == other:
+            return True
+
         scale = 0
         for i, value in enumerate(self.coordinates):
             if i == 0:
+                if self.coordinates[i] == 0:
+                    scale = self.coordinates = 0
                 scale = other.coordinates[i] / self.coordinates[i]
-            elif scale != other.coordinates[i]/self.coordinates[i]:
-                return False
+            else:
+                if self.coordinates[i] == 0:
+                    if scale != 0:
+                        return False
+                elif scale != other.coordinates[i] / self.coordinates[i]:
+                    return False
         return True
 
     def orthogonality(self, other):
@@ -129,3 +138,6 @@ class Vector():
         z = self.coordinates[0] * other.coordinates[1] - self.coordinates[1] * other.coordinates[0]
 
         return Vector([x, y, z])
+
+    def __index__(self, i):
+        return self.coordinates[i]
